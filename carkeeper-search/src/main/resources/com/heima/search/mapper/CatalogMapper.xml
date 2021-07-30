@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heima.search.mapper.CatalogMapper">
+    <resultMap id="cata" type="com.heima.model.es.pojo.CatalogVo">
+
+    </resultMap>
+    <select id="findCatalog" resultMap="cata">
+        SELECT
+        service_catalog.id,
+        service_type_parent.`name` AS parentName,
+        service_type_son.`code` AS sonCode,
+        service_type_son.`name` AS sonName,
+        service_catalog.id AS catalogId,
+        service_catalog.`name`,
+        service_catalog.price,
+        service_catalog.`enable`,
+        service_catalog.special
+        FROM
+        service_catalog,
+        serivce_type_parent_son,
+        service_type_parent,
+        service_type_son
+        WHERE
+        parent_son_id = serivce_type_parent_son.id
+        AND serivce_type_parent_son.parent_id = service_type_parent.id
+        AND serivce_type_parent_son.son_id = service_type_son.id
+        <if test="dto.name!=null">AND service_catalog.name LIKE CONCAT("%",#{dto.name},"%")
+        </if>
+        <if test="dto.typeParentName!=null">AND service_type_parent.`name` = CONCAT("%",#{dto.typeParentName},"%")
+        </if>
+        <if test="dto.typeSonName!=null">AND service_type_son.`name` LIKE CONCAT("%",#{dto.typeSonName},"%")
+        </if>
+        <if test="dto.typeSonCode!=null">AND service_type_son.`code` LIKE CONCAT("%",#{dto.typeSonCode},"%")
+        </if>
+        LIMIT #{start},#{count}
+    </select>
+
+</mapper>

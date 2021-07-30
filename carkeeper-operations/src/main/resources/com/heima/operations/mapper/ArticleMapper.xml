@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heima.operations.mapper.ArticleMapper">
+
+    <select id="findPage" parameterType="com.heima.model.operations.dtos.ArticleDto"
+            resultType="com.heima.model.operations.vos.ArticleVo">
+        SELECT id,`name`,category
+        FROM tb_article
+        <where>
+            <if test="dto.name != null and dto.name != ''">
+                name like #{dto.name}
+            </if>
+
+            <if test="dto.category != null and dto.category != ''">
+                and category= #{dto.category}
+            </if>
+
+            <if test="dto.classify != null and dto.classify != ''">
+                and classify= #{dto.classify}
+            </if>
+
+            <if test="dto.type != null and dto.type != ''">
+                and type= #{dto.type}
+            </if>
+        </where>
+        limit #{dto.page},#{dto.size}
+    </select>
+
+    <select id="findCount" resultType="int" parameterType="com.heima.model.operations.dtos.ArticleDto">
+        SELECT count(1)
+        FROM tb_article
+        <where>
+            <if test="dto.name != null and dto.name != ''">
+                name like #{dto.name}
+            </if>
+
+            <if test="dto.category != null and dto.category != ''">
+                and category= #{dto.category}
+            </if>
+
+            <if test="dto.classify != null and dto.classify != ''">
+                and classify= #{dto.classify}
+            </if>
+
+            <if test="dto.type != null and dto.type != ''">
+                and type= #{dto.type}
+            </if>
+        </where>
+    </select>
+
+</mapper>

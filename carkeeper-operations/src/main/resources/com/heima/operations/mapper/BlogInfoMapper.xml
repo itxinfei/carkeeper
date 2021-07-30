@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heima.operations.mapper.BlogInfoMapper">
+
+    <select id="findPage" parameterType="com.heima.model.operations.dtos.BlogInfoDto"
+            resultType="com.heima.model.operations.vos.BlogVo">
+        SELECT tb.id,tb.title,tb.create_time,tbc.`name`,tb.creator,tb.`status`,tb.sort
+        FROM tb_blog tb,tb_blog_category tbc
+        <where>
+            tb.blog_category_id= tbc.id
+
+            <if test="dto.title != null and dto.title != ''">
+                and tb.title like #{dto.title}
+            </if>
+
+            <if test="dto.blogCategoryId != null and dto.blogCategoryId != ''">
+                and tb.blog_category_id= #{dto.blogCategoryId}
+            </if>
+
+            <if test="dto.creator != null and dto.creator != ''">
+                and tb.creator= #{dto.creator}
+            </if>
+
+            <if test="dto.createTimeMin != null">
+                and tb.create_time <![CDATA[>]]> #{dto.createTimeMin}
+            </if>
+
+            <if test="dto.createTimeMax != null">
+                and tb.create_time <![CDATA[<]]> #{dto.createTimeMax}
+            </if>
+
+            <if test="dto.status != null and dto.status != ''">
+                and tb.status= #{dto.status}
+            </if>
+        </where>
+        limit #{dto.page},#{dto.size}
+    </select>
+
+    <select id="findCount" resultType="int" parameterType="com.heima.model.operations.dtos.BlogInfoDto">
+        SELECT count(1)
+        FROM tb_blog tb,tb_blog_category tbc
+        <where>
+            tb.blog_category_id= tbc.id
+
+            <if test="dto.title != null and dto.title != ''">
+                and tb.title like #{dto.title}
+            </if>
+
+            <if test="dto.blogCategoryId != null and dto.blogCategoryId != ''">
+                and tb.blog_category_id= #{dto.blogCategoryId}
+            </if>
+
+            <if test="dto.creator != null and dto.creator != ''">
+                and tb.creator= #{dto.creator}
+            </if>
+
+            <if test="dto.createTimeMin != null">
+                and tb.create_time <![CDATA[>]]> #{dto.createTimeMin}
+            </if>
+
+            <if test="dto.createTimeMax != null">
+                and tb.create_time <![CDATA[<]]> #{dto.createTimeMax}
+            </if>
+
+            <if test="dto.status != null and dto.status != ''">
+                and tb.status= #{dto.status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

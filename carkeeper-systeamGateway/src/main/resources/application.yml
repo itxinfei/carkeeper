@@ -1,0 +1,33 @@
+server:
+  port: 6001
+spring:
+  application:
+    name: carkeeper-systeam-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.129:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        # 平台管理
+        - id: systeam
+          uri: lb://carkeeper-systeam
+          predicates:
+            - Path=/systeam/**
+          filters:
+            - StripPrefix= 1
+#        - id: shop
+#          uri: lb://carkeeper-systeam
+#          predicates:
+#          - Path=/shop/**
+#          filters:
+#          - StripPrefix= 1

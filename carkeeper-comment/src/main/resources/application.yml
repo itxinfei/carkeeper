@@ -1,0 +1,34 @@
+server:
+  port: 9006
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+  application:
+    name: carkeeper-comment
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.200.129:8848
+  data:
+    mongodb:
+      host: 192.168.200.129
+      port: 27017
+      database: Carkeeper_Serve_Comment
+
+#OSS配置
+file:
+  oss:
+    bucket-name: baima117
+    access-key-id: LTAI4G9rWvzXUg8BhLP8doSd
+    access-key-secret: Q9YQhOxgcwyQTjad6JjGuytiMNwC43
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    web-site: https://baima117.oss-cn-shanghai.aliyuncs.com/
+    proxy-username: aliyun-sdk-java
+    socket-timeout: 10000
+    idle-connection-time: 10000
+    connection-request-timeout: 4000
+    max-connections: 2048
+    max-error-retry: 5
+    white-list: 127.0.0.1
+    connection-timeout: 10000
+    profix: material
